@@ -1,16 +1,10 @@
+# mongodb+srv://hbpans:<password>@cluster0.t1elsch.mongodb.net/?retryWrites=true&w=majority
+
+
 from fastapi import FastAPI
+from pymongo.mongo_client import MongoClient
+from routes.route import router
 
 app = FastAPI()
 
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int):
-    return {'item_id': item_id}
-
-# Create functions for everthing.
-# @app.post, @app.put, @app.patch, @app.delete
+app.include_router(router)
