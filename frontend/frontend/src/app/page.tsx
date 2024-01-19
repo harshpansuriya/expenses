@@ -11,9 +11,7 @@ export default function Home() {
                 <div className="col-span-1 row-span-1">
                     <AddExpenses />
                 </div>
-                <div className="">
-                    <AddExpenses />
-                </div>
+                <div className=""></div>
                 <div className="col-span-2 row-span-2">
                     <DataComponent />
                 </div>

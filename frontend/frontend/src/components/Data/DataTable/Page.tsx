@@ -1,25 +1,22 @@
-import { Payment, Columns } from "./Columns";
+"use client";
+
+import React from "react";
+
+import { Columns } from "./Columns";
 import { DataTable } from "./Data-table";
-import { loadData } from "@/lib/data/load-data";
 
-async function getData(): Promise<Payment[]> {
-    // Fetch data from your API here.
-
-    const data = await loadData();
-
-    const transformedData = data.map(
-        (item: { id: any; price: any; date: any; name: any }) => ({
-            id: item.id,
-            amount: "$" + item.price,
-            date: item.date,
-            name: item.name,
-        })
-    );
-
-    return transformedData;
-}
+import getData from "@/lib/data/get-data";
 
 export default async function DataComponent() {
+    React.useEffect(() => {
+        getData();
+
+        // Set up a timer to fetch data every 5 seconds (adjust as needed)
+        const intervalId = setInterval(getData, 5000);
+
+        // Clean up the timer when the component unmounts
+        return () => clearInterval(intervalId);
+    }, []); // The
     const data = await getData();
 
     return (

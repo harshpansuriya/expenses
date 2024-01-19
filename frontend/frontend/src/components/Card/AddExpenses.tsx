@@ -12,6 +12,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import { Calendar } from "@/components/ui/calendar";
+import AddForm from "../Form/AddForm";
+
 export default function AddExpenses() {
     return (
         <Card className="w-[350px]">
@@ -22,45 +25,10 @@ export default function AddExpenses() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <form>
-                    <div className="grid w-full items-center gap-4">
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="name">Name*</Label>
-                            <Input
-                                id="name"
-                                placeholder="Name of your Expense"
-                                required={true}
-                            />
-                        </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="amount">Amount*</Label>
-                            <Input
-                                type="number"
-                                id="amount"
-                                placeholder="Amount of your Expense"
-                                required={true}
-                            />
-                        </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="category">Category</Label>
-                            <Input
-                                id="category"
-                                placeholder="If you have certain categories"
-                            />
-                        </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="description">Description</Label>
-                            <Input
-                                id="description"
-                                placeholder="Would you like to add description"
-                            />
-                        </div>
-                    </div>
-                </form>
+                <AddForm />
             </CardContent>
             <CardFooter className="flex justify-between">
-                <Button variant="outline">Cancel</Button>
-                <Button>Deploy</Button>
+                Don't worry, This won't be shared with anyone, unless you can.
             </CardFooter>
         </Card>
     );
