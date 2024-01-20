@@ -5,6 +5,7 @@ def individual_serial(expense) -> dict:
         "price": expense["price"],
         "description": expense["description"],
         "date": expense["date"],
+        "category": expense["category"]
     }
 
 
