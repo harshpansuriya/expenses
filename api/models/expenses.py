@@ -6,3 +6,4 @@ class Expense(BaseModel):
     price: float
     description: str
     date: str
+    category: str

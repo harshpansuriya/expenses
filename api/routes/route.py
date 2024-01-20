@@ -16,6 +16,7 @@ async def get_expenses():
 @router.post("/")
 async def post_expenses(expense: Expense):
     collection_name.insert_one(dict(expense))
+    return {"message": "Data received successfully"}
 
 
 @router.put("/{id}")
