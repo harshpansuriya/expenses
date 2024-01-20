@@ -38,8 +38,3 @@ export default function RecentData() {
         </Card>
     );
 }
-
-//     return (
-//
-//     );
-// }
