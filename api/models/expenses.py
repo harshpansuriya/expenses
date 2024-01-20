@@ -7,3 +7,4 @@ class Expense(BaseModel):
     description: str
     date: str
     category: str
+    id: str = None
