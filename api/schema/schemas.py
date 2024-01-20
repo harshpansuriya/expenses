@@ -1,3 +1,8 @@
+from bson import ObjectId
+from typing import List
+from models.expenses import Expense
+
+
 def individual_serial(expense) -> dict:
     return {
         "id": str(expense["_id"]),
@@ -9,5 +14,5 @@ def individual_serial(expense) -> dict:
     }
 
 
-def list_serial(expenses) -> list:
+def list_serial(expenses) -> List[dict]:
     return [individual_serial(expense) for expense in expenses]
