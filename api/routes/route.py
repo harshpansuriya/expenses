@@ -2,13 +2,17 @@ from fastapi import APIRouter, HTTPException, Query
 from models.expenses import Expense
 from config.database import collection_name
 from schema.schemas import list_serial
-from bson import ObjectId, Decimal128
+from bson import ObjectId
 
 from datetime import datetime, timedelta
 from collections import defaultdict
 
+from datetime import datetime
+
 
 router = APIRouter()
+
+# All Functions
 
 
 def calculate_total_expenses(expenses):
@@ -28,11 +32,10 @@ def calculate_expenses_over_time(expenses, interval):
     expenses_over_time = defaultdict(float)
 
     for expense in expenses:
-        expense_date = datetime.strptime(
-            expense["date"], "%Y-%m-%dT%H:%M:%S.%fZ")
+        expense_date = datetime.strptime(expense["date"], "%d/%m/%Y")
         if start_date <= expense_date <= datetime.now():
             expenses_over_time[expense_date.strftime(
-                "%Y-%m-%d")] += float(str(expense["price"]))
+                "%d/%m/%Y")] += float(str(expense["price"]))
 
     return {date: (str(total)) for date, total in expenses_over_time.items()}
 
@@ -41,7 +44,7 @@ def calculate_multi_month_analytics(expenses, months):
     # Filter expenses for the specified months
     selected_months_expenses = [
         expense for expense in expenses
-        if datetime.strptime(expense["date"], "%Y-%m-%dT%H:%M:%S.%fZ").month in months
+        if datetime.strptime(expense["date"], "%d/%m/%Y").month in months
     ]
 
     # Calculate total expenses and category-wise analytics for the specified months
@@ -51,6 +54,8 @@ def calculate_multi_month_analytics(expenses, months):
     return {"total_expenses": total_expenses, "category_analytics": category_analytics}
 
 
+# All Routes
+
 @router.get("/")
 async def get_expenses(month: int = None):
     expenses = list_serial(collection_name.find())
@@ -59,15 +64,22 @@ async def get_expenses(month: int = None):
     if month:
         current_month_expenses = [
             expense for expense in expenses
-            if datetime.strptime(expense["date"], "%Y-%m-%dT%H:%M:%S.%fZ").month == month
+            if datetime.strptime(expense["date"], "%d/%m/%Y").month == month
         ]
     else:
         # Otherwise, return all expenses
         current_month_expenses = expenses
 
-    total_expenses = calculate_total_expenses(current_month_expenses)
+    if current_month_expenses:
+        total_expenses = calculate_total_expenses(current_month_expenses)
 
-    return {"expenses": current_month_expenses, "total_expenses": total_expenses}
+    else:
+        raise HTTPException(
+            status_code=404, detail="No Expenses Found For This Month!")
+
+    # return {"expenses": current_month_expenses, "total_expenses": total_expenses}
+
+    return current_month_expenses
 
 
 @router.get("/current_month")
@@ -77,7 +89,7 @@ async def get_current_month_expenses():
     # Filter expenses for the current month
     current_month_expenses = [
         expense for expense in expenses
-        if datetime.strptime(expense["date"], "%Y-%m-%dT%H:%M:%S.%fZ").month == datetime.now().month
+        if datetime.strptime(expense["date"], "%d/%m/%Y").month == datetime.now().month
     ]
 
     total_expenses = calculate_total_expenses(current_month_expenses)
@@ -92,7 +104,7 @@ async def get_category_analytics():
     # Filter expenses for the current month
     current_month_expenses = [
         expense for expense in expenses
-        if datetime.strptime(expense["date"], "%Y-%m-%dT%H:%M:%S.%fZ").month == datetime.now().month
+        if datetime.strptime(expense["date"], "%d/%m/%Y").month == datetime.now().month
     ]
 
     category_analytics = calculate_category_analytics(current_month_expenses)
@@ -124,9 +136,24 @@ async def get_current_month_analytics():
 
 @router.post("/")
 async def post_expenses(expense: Expense):
+
     try:
+        # Convert the date string to a datetime object
+        expense_date = datetime.strptime(expense.date, "%Y-%m-%dT%H:%M:%S.%fZ")
+
+        # Format the date according to "DD/MM/YYYY"
+        formatted_date = expense_date.strftime("%d/%m/%Y")
+
+        # Update the expense object with the formatted date
+        expense.date = formatted_date
+
+        # Insert the updated expense object into the database
         inserted_result = collection_name.insert_one(expense.dict())
+
+        # Update the expense object with the inserted ID
         expense.id = str(inserted_result.inserted_id)
+
+        # Return the updated expense object
         return expense
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

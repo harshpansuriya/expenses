@@ -1,3 +1,4 @@
+import DowloadButton from "@/components/Buttons/DowloadButton";
 import { Payment, Columns } from "./Columns";
 import { DataTable } from "./Data-table";
 import { loadData } from "@/lib/data/load-data";
@@ -24,7 +25,10 @@ export default async function DataComponent() {
 
     return (
         <div className="container mx-auto py-10">
-            <h1 className="text-2xl font-bold mb-6">Recent Activity</h1>
+            <div className="flex justify-between">
+                <h1 className="text-2xl font-bold mb-6">Recent Activity</h1>
+                <DowloadButton />
+            </div>
             <DataTable columns={Columns} data={data} />
         </div>
     );

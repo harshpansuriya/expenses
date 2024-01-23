@@ -14,6 +14,7 @@ export default function Home() {
                 </div>
                 <div className="col-span-2 row-span-2">
                     <DataComponent />
+                    {/* <DataComponent /> */}
                 </div>
             </div>
             <Footer />
