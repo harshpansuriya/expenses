@@ -97,6 +97,30 @@ async def get_current_month_expenses():
     return {"expenses": current_month_expenses, "total_expenses": total_expenses}
 
 
+@router.get("/monthly_expenses")
+async def get_monthly_expenses(month: int = None):
+    expenses = list_serial(collection_name.find())
+
+    # If month is provided, filter expenses for that month
+    if month:
+        current_month_expenses = [
+            expense for expense in expenses
+            if datetime.strptime(expense["date"], "%d/%m/%Y").month == month
+        ]
+    else:
+        # Otherwise, return all expenses
+        current_month_expenses = expenses
+
+    if current_month_expenses:
+        total_expenses = calculate_total_expenses(current_month_expenses)
+
+    else:
+        raise HTTPException(
+            status_code=404, detail="No Expenses Found For This Month!")
+
+    return {"expenses": current_month_expenses, "total_expenses": total_expenses}
+
+
 @router.get("/category_analytics")
 async def get_category_analytics():
     expenses = list_serial(collection_name.find())
@@ -108,8 +132,9 @@ async def get_category_analytics():
     ]
 
     category_analytics = calculate_category_analytics(current_month_expenses)
+    total_expenses = calculate_total_expenses(current_month_expenses)
 
-    return {"category_analytics": category_analytics}
+    return {"category_expense": category_analytics, "total_expenses": total_expenses}
 
 
 @router.get("/expenses_over_time")

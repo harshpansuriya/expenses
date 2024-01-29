@@ -59,7 +59,9 @@ export default function Navbar() {
     return (
         <div>
             <div className="my-5 grid grid-cols-3 items-center justify-items-center ">
-                <h1 className="text-2xl font-bold">Ex me.</h1>
+                <a className="text-2xl font-bold" href="/">
+                    Ex me.
+                </a>
                 <NavigationMenu>
                     <NavigationMenuList>
                         <NavigationMenuItem>
@@ -87,9 +89,12 @@ export default function Navbar() {
                                             </a>
                                         </NavigationMenuLink>
                                     </li>
-                                    <ListItem href="/docs" title="Introduction">
-                                        Re-usable components built using Radix
-                                        UI and Tailwind CSS.
+                                    <ListItem
+                                        href="/playground"
+                                        title="Playground"
+                                    >
+                                        Check your data in graphs for more
+                                        strategic information.
                                     </ListItem>
                                     <ListItem
                                         href="/docs/installation"
