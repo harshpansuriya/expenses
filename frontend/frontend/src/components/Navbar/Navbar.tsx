@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { Heart } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -74,17 +75,24 @@ export default function Navbar() {
                                         <NavigationMenuLink asChild>
                                             <a
                                                 className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                                                href="/"
+                                                href="https://numletive.com"
+                                                target="_blank"
                                             >
                                                 <div className="mb-2 mt-4 text-lg font-medium">
-                                                    shadcn/ui
+                                                    <code>
+                                                        {
+                                                            <Heart
+                                                                size={24}
+                                                                className="my-2"
+                                                                color="#ff0000"
+                                                            />
+                                                        }{" "}
+                                                        from Numletive
+                                                    </code>
                                                 </div>
                                                 <p className="text-sm leading-tight text-muted-foreground">
-                                                    Beautifully designed
-                                                    components that you can copy
-                                                    and paste into your apps.
-                                                    Accessible. Customizable.
-                                                    Open Source.
+                                                    Build with the Power of
+                                                    Numletive AI technologies.
                                                 </p>
                                             </a>
                                         </NavigationMenuLink>
