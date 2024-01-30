@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { Heart } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -59,7 +60,9 @@ export default function Navbar() {
     return (
         <div>
             <div className="my-5 grid grid-cols-3 items-center justify-items-center ">
-                <h1 className="text-2xl font-bold">Ex me.</h1>
+                <a className="text-2xl font-bold" href="/">
+                    Ex me.
+                </a>
                 <NavigationMenu>
                     <NavigationMenuList>
                         <NavigationMenuItem>
@@ -72,24 +75,34 @@ export default function Navbar() {
                                         <NavigationMenuLink asChild>
                                             <a
                                                 className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                                                href="/"
+                                                href="https://numletive.com"
+                                                target="_blank"
                                             >
                                                 <div className="mb-2 mt-4 text-lg font-medium">
-                                                    shadcn/ui
+                                                    <code>
+                                                        {
+                                                            <Heart
+                                                                size={24}
+                                                                className="my-2"
+                                                                color="#ff0000"
+                                                            />
+                                                        }{" "}
+                                                        from Numletive
+                                                    </code>
                                                 </div>
                                                 <p className="text-sm leading-tight text-muted-foreground">
-                                                    Beautifully designed
-                                                    components that you can copy
-                                                    and paste into your apps.
-                                                    Accessible. Customizable.
-                                                    Open Source.
+                                                    Build with the Power of
+                                                    Numletive AI technologies.
                                                 </p>
                                             </a>
                                         </NavigationMenuLink>
                                     </li>
-                                    <ListItem href="/docs" title="Introduction">
-                                        Re-usable components built using Radix
-                                        UI and Tailwind CSS.
+                                    <ListItem
+                                        href="/playground"
+                                        title="Playground"
+                                    >
+                                        Check your data in graphs for more
+                                        strategic information.
                                     </ListItem>
                                     <ListItem
                                         href="/docs/installation"

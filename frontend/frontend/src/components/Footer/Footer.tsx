@@ -4,7 +4,7 @@ import { Separator } from "../ui/separator";
 
 function Footer() {
     return (
-        <div className="w-full ">
+        <div className="w-full mb-7">
             <Separator className="my-4" />
             <h1 className="text-center ">
                 &copy; 2024, All rights reserved |{" "}
