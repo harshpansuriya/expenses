@@ -1,4 +1,4 @@
-# mongodb+srv://hbpans:<password>@cluster0.t1elsch.mongodb.net/?retryWrites=true&w=majority
+# # mongodb+srv://hbpans:<password>@cluster0.t1elsch.mongodb.net/?retryWrites=true&w=majority
 
 
 from fastapi import FastAPI

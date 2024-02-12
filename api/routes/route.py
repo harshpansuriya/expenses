@@ -1,11 +1,16 @@
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, status, Depends
 from models.expenses import Expense
-from config.database import collection_name
+from config.database import collection_name, users_collection
 from schema.schemas import list_serial
 from bson import ObjectId
+from models.user import User
 
 from datetime import datetime, timedelta
 from collections import defaultdict
+
+from utils.auth import ACCESS_TOKEN_EXPIRE_MINUTES, authenticate_user, pwd_context, create_access_token, get_current_user
+from fastapi.security import OAuth2PasswordRequestForm
+
 
 from datetime import datetime
 
@@ -208,3 +213,45 @@ async def delete_expense(id: str):
             raise HTTPException(status_code=404, detail="Expense not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# Endpoint for user login
+@router.post("/login")
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = await authenticate_user(form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.username}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
+# Endpoint for user registration
+@router.post("/register")
+async def register_user(user: User):
+    # Hash user password before storing in the database
+    hashed_password = pwd_context.hash(user.password)
+    user_dict = user.dict()
+    user_dict["password"] = hashed_password
+    # Check if username already exists
+    existing_user = await users_collection.find_one({"username": user.username})
+    if existing_user:
+        raise HTTPException(
+            status_code=400, detail="Username already registered")
+    # Insert user into the database
+    await users_collection.insert_one(user_dict)
+    return {"message": "User registered successfully"}
+
+
+# Example protected route
+@router.get("/protected_route")
+async def protected_route(user: User = Depends(get_current_user)):
+    # If the user is authenticated, the user object will be available
+    # You can now access user data and perform actions accordingly
+    return {"message": "This is a protected route", "user": user}
