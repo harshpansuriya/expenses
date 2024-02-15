@@ -23,51 +23,51 @@ const usNumberformatter = (number: number, decimals = 0) =>
         .toString();
 
 const formatters: { [key: string]: any } = {
-    Sales: (number: number) => `$ ${usNumberformatter(number)}`,
-    Profit: (number: number) => `$ ${usNumberformatter(number)}`,
-    Customers: (number: number) => `${usNumberformatter(number)}`,
+    Expense: (number: number) => `$ ${usNumberformatter(number)}`,
+    Income: (number: number) => `$ ${usNumberformatter(number)}`,
+    Average: (number: number) => `${usNumberformatter(number)}`,
     Delta: (number: number) => `${usNumberformatter(number, 2)}%`,
 };
 
 const Kpis = {
-    Sales: "Sales",
-    Profit: "Profit",
-    Customers: "Customers",
+    Expense: "Expense",
+    Income: "Income",
+    Average: "Average",
 };
 
-const kpiList = [Kpis.Sales, Kpis.Profit, Kpis.Customers];
+const kpiList = [Kpis.Expense, Kpis.Income, Kpis.Average];
 
 export type DailyPerformance = {
     date: string;
-    Sales: number;
-    Profit: number;
-    Customers: number;
+    Expense: number;
+    Income: number;
+    Average: number;
 };
 
 export const performance: DailyPerformance[] = [
     {
         date: "2023-05-01",
-        Sales: 900.73,
-        Profit: 173,
-        Customers: 73,
+        Expense: 900.73,
+        Income: 173,
+        Average: 73,
     },
     {
         date: "2023-05-02",
-        Sales: 1000.74,
-        Profit: 174.6,
-        Customers: 74,
+        Expense: 1000.74,
+        Income: 174.6,
+        Average: 74,
     },
     {
         date: "2023-05-03",
-        Sales: 1100.93,
-        Profit: 593.1,
-        Customers: 293,
+        Expense: 1100.93,
+        Income: 593.1,
+        Average: 293,
     },
     {
         date: "2023-05-04",
-        Sales: 1200.9,
-        Profit: 290.2,
-        Customers: 29,
+        Expense: 1200.9,
+        Income: 290.2,
+        Average: 29,
     },
 ];
 
@@ -110,9 +110,9 @@ export default function BasicChart() {
                         onIndexChange={setSelectedIndex}
                     >
                         <TabList color="gray" variant="solid">
-                            <Tab>Sales</Tab>
-                            <Tab>Profit</Tab>
-                            <Tab>Customers</Tab>
+                            <Tab>Expense</Tab>
+                            <Tab>Income</Tab>
+                            <Tab>Average</Tab>
                         </TabList>
                     </TabGroup>
                 </div>

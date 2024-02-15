@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { UserAuthForm } from "@/components/AuthForm/UserAuthForm";
 
 export const metadata: Metadata = {
-    title: "Authentication",
+    title: "Authentication | Ex Me",
     description: "Authentication forms built using the components.",
 };
 
@@ -27,7 +27,7 @@ export default function Page() {
                 <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
                     <div className="absolute inset-0 bg-zinc-900" />
                     <div className="relative z-20 flex items-center text-lg font-medium">
-                        Ex Me
+                        <a href="/">Ex Me</a>
                     </div>
                     <div className="relative z-20 mt-auto">
                         <blockquote className="space-y-2">
