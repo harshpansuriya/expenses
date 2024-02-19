@@ -44,9 +44,6 @@ export function UserAuthForm(
     const [error, setError] = useState("");
 
     const onSubmit = (event: { preventDefault: () => void }) => {
-        //check if passwords match. If they do, create user in Firebase
-        // and redirect to your logged in page.
-
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log("Success. The user is created in Firebase");
@@ -54,6 +51,7 @@ export function UserAuthForm(
             .catch((error) => {
                 // An error occurred. Set error message to be displayed to user
                 setError(error.message);
+                console.log(error.message);
             });
 
         event.preventDefault();
@@ -118,9 +116,9 @@ export function UserAuthForm(
                 {isLoading ? (
                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                    <Icons.gitHub className="mr-2 h-4 w-4" />
+                    <Icons.google className="mr-2 h-4 w-4" />
                 )}{" "}
-                GitHub
+                Google
             </Button>
         </div>
     );
