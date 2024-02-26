@@ -3,7 +3,8 @@
 
 from fastapi import FastAPI
 from pymongo.mongo_client import MongoClient
-from routes.route import router
+# from routes.route import router
+from routes.posts import router
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -17,5 +18,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# app.include_router(router)
 
 app.include_router(router)

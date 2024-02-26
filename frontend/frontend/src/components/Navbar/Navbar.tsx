@@ -18,6 +18,11 @@ import {
 import { Separator } from "../ui/separator";
 import UserButton from "../Buttons/UserButton";
 
+import { getAuth } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { redirect } from "next/navigation";
+import { app } from "../../../firebaseconfig";
+
 const components: { title: string; href: string; description: string }[] = [
     {
         title: "Alert Dialog",
@@ -57,6 +62,27 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export default function Navbar() {
+    const auth = getAuth(app);
+    const user = auth.currentUser;
+    let displayName;
+
+    if (user !== null) {
+        // The user object has basic properties such as display name, email, etc.
+        displayName = user.displayName;
+        const email = user.email;
+        const photoURL = user.photoURL;
+        const emailVerified = user.emailVerified;
+
+        // The user's ID, unique to the Firebase project. Do NOT use
+        // this value to authenticate with your backend server, if
+        // you have one. Use User.getToken() instead.
+        const uid = user.uid;
+    } else {
+        redirect("/auth");
+    }
+
+    console.log(user);
+
     return (
         <div>
             <div className="my-5 grid grid-cols-3 items-center justify-items-center ">
@@ -150,7 +176,7 @@ export default function Navbar() {
                         </NavigationMenuItem>
                     </NavigationMenuList>
                 </NavigationMenu>
-                <UserButton user="hbpans" />
+                <UserButton user={displayName} />
             </div>
             <Separator className="my-4" />
         </div>

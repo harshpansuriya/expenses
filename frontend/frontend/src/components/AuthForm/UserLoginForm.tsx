@@ -13,17 +13,17 @@ import { useState } from "react";
 // Authentication
 import {
     getAuth,
-    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
     updateProfile,
 } from "firebase/auth";
 import { app } from "../../../firebaseconfig";
 import { useRouter } from "next/navigation";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserLoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function UserAuthForm(
+export function UserLoginForm(
     this: any,
-    { className, ...props }: UserAuthFormProps
+    { className, ...props }: UserLoginFormProps
 ) {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
@@ -46,12 +46,8 @@ export function UserAuthForm(
     const [displayName, setDisplayName] = useState("");
 
     const onSubmit = (event: { preventDefault: () => void }) => {
-        createUserWithEmailAndPassword(auth, email, password)
+        signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                const user = userCredential.user;
-                updateProfile(user, {
-                    displayName: displayName,
-                });
                 router.push("/");
             })
             .catch((error) => {
@@ -67,23 +63,6 @@ export function UserAuthForm(
         <div className={cn("grid gap-6", className)} {...props}>
             <form onSubmit={onSubmit}>
                 <div className="grid gap-2">
-                    <div className="grid gap-1">
-                        <Label className="sr-only" htmlFor="email">
-                            Display Name
-                        </Label>
-                        <Input
-                            id="displayName"
-                            placeholder="Your Name"
-                            type="text"
-                            autoCapitalize="none"
-                            autoCorrect="off"
-                            disabled={isLoading}
-                            value={displayName}
-                            onChange={(event) =>
-                                setDisplayName(event.target.value)
-                            }
-                        />
-                    </div>
                     <div className="grid gap-1">
                         <Label className="sr-only" htmlFor="email">
                             Email
@@ -121,7 +100,7 @@ export function UserAuthForm(
                         {isLoading && (
                             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                         )}
-                        Sign In with Email
+                        Log In with Email
                     </Button>
                 </div>
             </form>
